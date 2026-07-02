@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eric Shaker — Résumé &amp; CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F3EE;
+    --ink:#1C2321;
+    --ink-soft:#333936;
+    --line:#C9C2B4;
+    --rule:#1C2321;
+    --accent:#2F5D53;
+    --accent-soft:#DCE6E1;
+    --tag:#6B5637;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .grid-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:88px 88px;
+    opacity:0.18;
+  }
+
+  .wrap{position:relative; z-index:1; max-width:920px; margin:0 auto; padding:64px 32px 120px;}
+
+  header{
+    border-bottom:2px solid var(--rule);
+    padding-bottom:28px;
+    margin-bottom:8px;
+    display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px;
+  }
+  .name{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(38px, 6vw, 58px);
+    letter-spacing:-0.01em;
+    line-height:1;
+    margin:0;
+  }
+  .role{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-top:10px;
+  }
+  .contact{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    text-align:right;
+    line-height:1.9;
+  }
+  .contact a{color:var(--ink-soft); text-decoration:none; border-bottom:1px solid var(--line);}
+  .contact a:hover{color:var(--accent); border-color:var(--accent);}
+  .prepared{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:11px;
+    color:var(--tag);
+    text-align:right;
+    margin-top:6px;
+    display:none;
+  }
+
+  /* Tab nav */
+  .tabs{display:flex; gap:2px; margin:20px 0 0;}
+  .tabs button{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--ink-soft);
+    background:transparent;
+    border:1px solid var(--line);
+    padding:7px 16px;
+    cursor:pointer;
+    transition:background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .tabs button:first-child{border-radius:2px 0 0 2px;}
+  .tabs button:last-child{border-radius:0 2px 2px 0; border-left:none;}
+  .tabs button.active{background:var(--rule); color:var(--paper); border-color:var(--rule);}
+  .tabs button:not(.active):hover{color:var(--accent); border-color:var(--accent);}
+
+  section{margin-top:48px; position:relative;}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:20px;}
+  .sec-code{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:12px;
+    color:var(--tag);
+    letter-spacing:0.05em;
+    white-space:nowrap;
+  }
+  .sec-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:22px;
+    letter-spacing:0.01em;
+  }
+  .sec-sub{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:22px 0 12px;
+  }
+  .sec-head::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 10px);
+    transform:translateY(-3px);
+  }
+
+  /* Entry block */
+  .entry{margin-bottom:26px; padding-left:2px;}
+  .entry:last-child{margin-bottom:0;}
+  .entry-top{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:4px 16px;}
+  .org{font-weight:600; font-size:16.5px;}
+  .place{font-family:'IBM Plex Mono', monospace; font-weight:500; font-size:12px; color:var(--ink-soft);}
+  .subline{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:4px 16px; margin-top:2px; margin-bottom:10px;}
+  .role-line{color:var(--accent); font-style:italic; font-family:'Fraunces', serif; font-size:15px;}
+  .dates{font-family:'IBM Plex Mono', monospace; font-weight:500; font-size:11.5px; color:var(--tag); letter-spacing:0.02em; white-space:nowrap;}
+  .desc{font-size:13.5px; line-height:1.6; color:var(--ink-soft);}
+  ul.points{margin:0; padding-left:0; list-style:none;}
+  ul.points li{
+    position:relative;
+    padding-left:20px;
+    margin-bottom:8px;
+    font-size:14.5px;
+    line-height:1.55;
+    font-weight:500;
+    color:var(--ink);
+  }
+  ul.points li::before{content:"–"; position:absolute; left:0; top:0; color:var(--accent); font-weight:600;}
+
+  /* Education specific (résumé tab) */
+  .edu-block{margin-bottom:22px;}
+  .edu-block:last-child{margin-bottom:0;}
+  .gpa-tag{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:11px;
+    background:var(--accent-soft);
+    color:var(--accent);
+    padding:2px 8px;
+    border-radius:2px;
+    margin-top:6px;
+  }
+  .coursework{font-size:13.5px; font-weight:500; color:var(--ink-soft); margin-top:6px; line-height:1.6;}
+  .coursework b{color:var(--ink); font-weight:600;}
+
+  /* Data grid (résumé "Additional") */
+  .data-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px 40px;}
+  .data-row{border-top:1px solid var(--line); padding-top:10px;}
+  .data-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:11px; letter-spacing:0.06em;
+    color:var(--tag); text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .data-val{font-size:14px; font-weight:500; line-height:1.7; color:var(--ink);}
+
+  /* Position rows (CV tab) */
+  .pos-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    gap:12px 20px; flex-wrap:wrap;
+    padding:11px 0;
+    border-top:1px solid var(--line);
+  }
+  .pos-row:last-child{border-bottom:1px solid var(--line);}
+  .pos-left{flex:1; min-width:260px;}
+  .pos-org{font-weight:600; font-size:14.5px;}
+  .pos-title{font-size:13px; color:var(--ink-soft); font-style:italic; font-family:'Fraunces', serif;}
+  .pos-label{font-size:11px; font-family:'IBM Plex Mono', monospace; font-style:normal; letter-spacing:0.06em; text-transform:uppercase; color:var(--tag); margin-bottom:8px;}
+
+  /* Numbered scholarship lists */
+  ol.pub-list{margin:0; padding:0; list-style:none; counter-reset:pub;}
+  ol.pub-list li{
+    counter-increment:pub;
+    position:relative;
+    padding-left:34px;
+    margin-bottom:11px;
+    font-size:13.5px;
+    line-height:1.55;
+    color:var(--ink);
+  }
+  ol.pub-list li::before{
+    content:counter(pub);
+    position:absolute; left:0; top:0;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:11px;
+    color:var(--accent);
+    background:var(--accent-soft);
+    width:22px; height:20px;
+    border-radius:2px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  ol.pub-list li i{color:var(--ink-soft);}
+  ol.pub-list li .status{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--tag); text-transform:uppercase; letter-spacing:0.04em;}
+
+  /* Simple two-column list */
+  .simple-list{margin:0; padding:0; list-style:none; columns:2; column-gap:36px;}
+  .simple-list li{
+    font-size:13.5px;
+    line-height:1.7;
+    color:var(--ink);
+    break-inside:avoid;
+    padding-left:14px;
+    position:relative;
+    margin-bottom:4px;
+  }
+  .simple-list li::before{content:"·"; position:absolute; left:0; top:0; color:var(--accent); font-weight:700;}
+  .simple-list.one-col{columns:1;}
+
+  footer{
+    margin-top:70px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    display:flex; justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:10.5px;
+    color:var(--tag);
+    letter-spacing:0.05em;
+  }
+
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  @media (max-width:640px){
+    header{flex-direction:column; align-items:flex-start;}
+    .contact, .prepared{text-align:left;}
+    .data-grid{grid-template-columns:1fr;}
+    .simple-list{columns:1;}
+    .wrap{padding:40px 20px 90px;}
+  }
+
+  @media print{
+    .grid-bg{display:none;}
+    body{background:#fff;}
+    .wrap{padding:20px 10px;}
+    a{color:inherit; text-decoration:none;}
+    .tabs{display:none;}
+    .panel{display:block !important;}
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="wrap">
+
+  <header>
+    <div>
+      <h1 class="name">Eric Shaker</h1>
+      <div class="role" id="roleLine">MD Candidate · Bioengineering · Orthopaedic Surgery</div>
+      <nav class="tabs">
+        <button type="button" class="active" data-tab="resume">Résumé</button>
+        <button type="button" data-tab="cv">Curriculum&nbsp;Vitae</button>
+      </nav>
+    </div>
+    <div>
+      <div class="contact">
+        Durham, NC<br>
+        +1 848&#8209;213&#8209;5000<br>
+        <a href="mailto:eric.shaker@duke.edu">eric.shaker@duke.edu</a>
+      </div>
+      <div class="prepared" id="preparedLine">CV prepared March 2026</div>
+    </div>
+  </header>
+
+  <!-- ============ RÉSUMÉ PANEL ============ -->
+  <div class="panel active" id="panel-resume">
+
+    <section>
+      <div class="sec-head"><span class="sec-code">01 — EDU</span><span class="sec-title">Education</span></div>
+      <div class="edu-block">
+        <div class="entry-top">
+          <span class="org">Duke University School of Medicine</span>
+          <span class="place">Durham, NC</span>
+        </div>
+        <div class="subline">
+          <span class="role-line">Doctor of Medicine</span>
+          <span class="dates">Expected May 2028</span>
+        </div>
+        <span class="gpa-tag">Pass / Fail curriculum</span>
+        <div class="coursework"><b>Research —</b> focused ultrasound functional neurosurgery, AR/VR in spine surgery, radiosurgery for brain tumors</div>
+      </div>
+      <div class="edu-block">
+        <div class="entry-top">
+          <span class="org">University of Pittsburgh</span>
+          <span class="place">Pittsburgh, PA</span>
+        </div>
+        <div class="subline">
+          <span class="role-line">Bachelor of Engineering — Bioengineering, Minor in Chemistry</span>
+          <span class="dates">May 2023</span>
+        </div>
+        <span class="gpa-tag">3.84 / 4.0 · Summa Cum Laude · Dean's List 2019–2023</span>
+        <div class="coursework"><b>Coursework —</b> Tissue Engineering, Synthetic Biology, AI in Healthcare, Multi‑Modal Medical Image Analysis</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-code">02 — WORK</span><span class="sec-title">Work Experience</span></div>
+      <div class="entry">
+        <div class="entry-top">
+          <span class="org">Pfizer</span>
+          <span class="place">New York, NY</span>
+        </div>
+        <div class="subline">
+          <span class="role-line">Clinical Trial Statistics &amp; Pharmacodynamics</span>
+          <span class="dates">Jun 2022 – Sep 2024</span>
+        </div>
+        <ul class="points">
+          <li>Developed interactive software enabling the team to observe effects of varying statistical parameters across tunable models — negative binomial, beta binomial, quasi‑Poisson</li>
+          <li>Built a linear mixed effects model analyzing chemotherapy effects on physical activity using Pfizer Lab wearable device data</li>
+          <li>Revised clinical trial documents prior to submission and engaged directly with the FDA to resolve issues</li>
+          <li>Completed a structured coaching and leadership program with weekly 1:1s with a career coach</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-code">03 — RSCH</span><span class="sec-title">Research</span></div>
+      <div class="entry">
+        <div class="entry-top"><span class="org">NMRRG Lab</span></div>
+        <div class="subline"><span class="dates">Aug 2024 – Present</span></div>
+        <ul class="points">
+          <li>Analyzed outcomes for the first 200 patients receiving low‑intensity pulsed ultrasound for tremor therapy at Duke</li>
+          <li>Developed a clinical decision‑making tool trained on a multi‑institutional cohort of 1,000+ patients to evaluate likelihood of benefit from surgical resection versus radiotherapy for brain metastases</li>
+          <li>Partnered with industry to validate a novel tablet‑enabled tremor characterization tool for clinical use</li>
+        </ul>
+      </div>
+      <div class="entry">
+        <div class="entry-top"><span class="org">Dr. Rui Liang Lab</span></div>
+        <div class="subline"><span class="dates">Nov 2019 – Jun 2024</span></div>
+        <ul class="points">
+          <li>Won the Michael G. Wells Competition for Innovation in Healthcare ($10,000) for a device developed during research; filed provisional patent as lead inventor; presented at AUGS</li>
+          <li>Investigated links between delayed wound healing, prolonged inflammation, and vascularization in polypropylene meshes tied to macrophage alterations and recent FDA recalls</li>
+          <li>Ran lab experiments, collected data, and analyzed results with Nanostring software and custom R code</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-code">04 — SVC</span><span class="sec-title">Community Service</span></div>
+      <div class="entry">
+        <div class="entry-top">
+          <span class="org">Root Causes</span>
+          <span class="place">Durham, NC</span>
+        </div>
+        <div class="subline">
+          <span class="role-line">Board Member, Lifestyle Medicine Interest Group</span>
+          <span class="dates">Aug 2024 – Present</span>
+        </div>
+        <ul class="points">
+          <li>Develop adaptive tools helping patients with disabilities prepare food; run healthy, sustainable cooking courses for students</li>
+        </ul>
+      </div>
+      <div class="entry">
+        <div class="entry-top">
+          <span class="org">Marlboro Volunteer EMS Squad</span>
+          <span class="place">Marlboro, NJ</span>
+        </div>
+        <div class="subline">
+          <span class="role-line">Member; former Sergeant, Cadet Corps</span>
+          <span class="dates">Aug 2016 – Aug 2024</span>
+        </div>
+        <ul class="points">
+          <li>Led new member education and disciplinary matters; grew the Cadet Corps by 300% while logging 1,000+ hours on call and delivering high‑quality patient care</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-code">05 — ADD</span><span class="sec-title">Additional</span></div>
+      <div class="data-grid">
+        <div class="data-row">
+          <div class="data-label">Technical Skills</div>
+          <div class="data-val">R · Python · MATLAB · Deep Learning (scikit) · Machining · Arduino · SolidWorks · FDA Regulation</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Awards</div>
+          <div class="data-val">Wells Healthcare Entrepreneurship Winner — $10,000<br>Roger and Christine LeMatty Scholarship</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Hobbies</div>
+          <div class="data-val">Judo · Soccer · Guitar · Reading &amp; writing book reviews</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Contact</div>
+          <div class="data-val">eric.shaker@duke.edu<br>+1 848‑213‑5000</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ============ CV PANEL ============ -->
+  <div class="panel" id="panel-cv">
+
+    <section>
+      <div class="sec-head"><span class="sec-code">01 — EDU</span><span class="sec-title">Education</span></div>
+      <div class="entry">
+        <div class="entry-top"><span class="org">Duke University School of Medicine</span><span class="place">Durham, NC</span></div>
+        <div class="subline"><span class="role-line">M.D. (in progress)</span><span class="dates">Expected May 2028</span></div>
+      </div>
+      <div class="entry">
+        <div class="entry-top"><span class="org">University of Pittsburgh</span><span class="place">Pittsburgh, PA</span></div>
+        <div class="subline"><span class="role-line">B.E., Bioengineering — Minor in Chemistry — Summa Cum Laude, 3.84/4.0</span><span class="dates">May 2023</span></div>
+      </div>
+      <div class="entry">
+        <div class="entry-top"><span class="org">Marlboro High School</span><span class="place">Marlboro, NJ</span></div>
+        <div class="subline"><span class="role-line">High School Diploma</span><span class="dates">2019</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-code">02 — POS</span><span class="sec-title">Research Training &amp; Positions</span></div>
+      <div class="pos-row">
+        <div class="pos-left"><div class="pos-org">Pfizer, New York, NY</div><div class="pos-title">Biostatistics and Quantitative Sciences Lead — Rare Disease WRD</div></div>
+        <div class="dates">Jun 2023 – Aug 2024</div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-left"><div class="pos-org">Pfizer, New York, NY</div><div class="pos-title">Biostatistics Intern — Rare Disease GPD</div></div>
+        <div class="dates">Jun 2022 – Aug 2022</div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-left"><div class="pos-org">Columbia University, Mailman School of Public Health</div><div class="pos-title">Biostatistics and Epidemiology Intern</div></div>
+        <div class="dates">Jun 2021 – Aug 2021</div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-left"><div class="pos-org">B.I.O.N.I.C Lab, University of Pittsburgh</div><div class="pos-title">Student Researcher — LIPUS / Neuroengineering</div></div>
+        <div class="dates">Nov 2021 – Aug 2023</div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-left"><div class="pos-org">Dr. Rui Liang Lab, University of Pittsburgh</div><div class="pos-title">Student Researcher / Lead Inventor (BioBulwark)</div></div>
+        <div class="dates">Nov 2019 – Jun 2024</div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-left"><div class="pos-org">Benam Lab, University of Pittsburgh</div><div class="pos-title">Student Researcher — Lung‑on‑a‑Chip</div></div>
+        <div class="dates">Jan 2021 – Sep 2021</div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-left"><div class="pos-org">Wu Lab, University of Pittsburgh</div><div class="pos-title">Medical Image Analysis Intern</div></div>
+        <div class="dates">Jun 2020 – Sep 2021</div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-left"><div class="pos-org">Translational Medical Device Lab, University of Pittsburgh</div><div class="pos-title">Student Researcher</div></div>
+        <div class="dates">Sep 2020 – Mar 2021</div>
+      </div>
+      <div class="pos-row">
+        <div class="pos-left"><div class="pos-org">7T RF Lab, University of Pittsburgh</div><div class="pos-title">Research Student — Medical Image Segmentation</div></div>
+        <div class="dates">Mar 2020 – May 2021</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-code">03 — SCHOL</span><span class="sec-title">Scholarship</span></div>
+
+      <div class="sec-sub">A — Publications in Refereed Journals</div>
+      <ol class="pub-list">
+        <li>Liang R, Shaker ER, Zhao M, King G, Moalli PA. Dysregulated inflammatory response to urogynecologic meshes in women with diabetes and its implications. <i>Am J Obstet Gynecol.</i> 2024.</li>
+        <li>Li F, Gallego J, Tirko NN, Greaser J, Bashe D, Patel R, Shaker E, Van Valkenburg GE, Alsubhi AS, Wellman S, Singh V, Garcia Padilla C, Gheres KW, Broussard JI, Bagwell R, Mulvihill M, Kozai TDY. Low‑intensity pulsed ultrasound stimulation (LIPUS) modulates microglial activation following intracortical microelectrode implantation. <i>Nat Commun.</i> 2023.</li>
+        <li>Ghellab O, Seas A, Shaker E, Bartlett AM, Paturu M, Calebrese E, Abd‑El‑Barr MM. Overlay of nerve roots to aid in augmented reality‑guided L4 to L5 transforaminal interbody fusion: a methodologic pilot. <i>Oper Neurosurg (Hagerstown).</i> 2025.</li>
+        <li>Bartlett AM, Robertson FC, Shaker E, Than KD, Godzik J, Hofstetter CP, Pollina J, Shin JH, Urakov T, Fessler RG, Abd‑El‑Barr MM. Disruptive technologies in spine surgery: current trends, outcomes, and ethical implications. <i>Front Surg.</i> 2025.</li>
+        <li>Chongsathidkiet P, MacDonagh A, Haskell‑Mendoza A, Dalton T, McGee James T, Shaker E, Reason E, Gonzalez A, Mebrahtu A, Jackson J, Goodin M, Fecci P. Predictors of leptomeningeal disease after brain metastasis resection and laser interstitial thermal therapy. <i>Neuro‑Oncology.</i> 2025.</li>
+        <li>Haskell‑Mendoza A, Shaker E, Jackson J, Broadwater G, Warman P, Herndon J, Adamson J, Fecci P. Real‑world predictors of resection prior to stereotactic radiosurgery for brain metastases: a multi‑center study. <i>Neuro‑Oncology.</i> 2025.</li>
+      </ol>
+
+      <div class="sec-sub" style="margin-top:22px;">Submitted / Accepted Manuscripts</div>
+      <ol class="pub-list" start="7">
+        <li>Warman PI, Parente B, Hon K, Nose BD, Seas A, Shaker E, Lambert K, Venkataraman V, Futch BG, Zein M, Peterson AC, Lad SP. Percutaneous conus stimulation after spinal cord stimulation in traumatic spinal cord injury resulting in improvement of bladder, motor, and sensory function: a case report. <span class="status">Accepted / In Revision</span></li>
+        <li>McGee James T, Shaker E, Seas A, De Souza D, MacDonagh AC, Succop BS, Todd L, Lad N, Harward S. Proprioceptive deficit following HIFU lesion implicating the corticospinal tract in patient with essential tremor. Submitted to <i>JNS Case Lessons.</i> <span class="status">Submitted</span></li>
+        <li>McGee James T, MacDonagh AC, Seas A, Shaker E, Arno G, Goes E, Dutta R, Tanzillo A, Sharma A, Succop B, Lad N, Harward S. Physical therapy outcomes following unilateral focused ultrasound thalamotomy for essential tremor and tremor‑dominant Parkinson's disease: a retrospective analysis. Submitted to <i>J Neurosurg.</i> <span class="status">Submitted</span></li>
+        <li>MacDonagh AC, Seas A, Succop BS, McGee James T, Goes EG, Arno G, Shaker E, Lennon ZY, Todd LB, Lad SP, Harward SC. AI computer vision to assess tremor severity: validation against Clinical Rating Scale for Tremor. Submitted to <i>Tremor and Other Hyperkinetic Movements.</i> <span class="status">Submitted</span></li>
+      </ol>
+
+      <div class="sec-sub" style="margin-top:22px;">B — Books</div>
+      <ol class="pub-list">
+        <li>Shaker ER, et al. Principles of MISS textbook chapter — learning curve to minimally invasive spine surgery. Textbook Chapter.</li>
+      </ol>
+
+      <div class="sec-sub" style="margin-top:22px;">D — Abstracts (most impactful, up to 10)</div>
+      <ol class="pub-list">
+        <li>Shaker E, Liang R. Effects of diabetes associated epigenetic modifications on wound healing and tissue remodeling leading to urogynecologic mesh complications. Poster, American Urogynecologic Society (AUGS). 2020.</li>
+        <li>Li F, Gallego J, Tirko N, Greaser J, Bashe D, Patel R, Shaker E, Valkenburg G, Wellman S, Stieger K, Chen K, Garcia C, Forrest A, Hughes C, Suematsu N, Singha V, Zhang G, Gheres K, Bagwell R, Mulvihill M, Kozai T. Low intensity pulsed ultrasound improves tissue recovery after implantation of intracortical microelectrode for brain computer interfaces. 9th Annual BRAIN Initiative Meeting. 2023.</li>
+        <li>Seas A, MacDonagh AC, Shaker E, Ray EJ, Arno G, Goes E, McGee James T, Harward S, Haglund MM, Lad SP. Mapping operative autonomy for spine surgery in neurosurgery residency: an analysis of the Surgical Autonomy Program database. Oral Presentation, CNS Annual Meeting. 2025.</li>
+        <li>McGee James T, Goes E, Shaker E, MacDonagh AC, Arno G, Succop BS, Seas A, Todd L, Lad SP, Harward S. Comparative functional outcomes and adverse effects following staged bilateral MRgFUS thalamotomy for essential tremor. Oral Presentation, CNS Annual Meeting. 2025.</li>
+        <li>Shaker E, McGee James T, De Souza D, MacDonagh AC, Succop BS, Seas A, Todd L, Harward S. Focal hand dystonia following magnetic resonance guided focused ultrasound (MRgFUS) thalamotomy for essential tremor: a case report. Oral Presentation, CNS Annual Meeting. 2025.</li>
+        <li>MacDonagh AC, Seas A, Succop BS, Goes EG, McGee James T, Arno G, Shaker E, Lennon ZY, Todd LB, Harward SC, Lad SP. Assessing tremor severity with AI computer vision: validation study against Clinical Rating Scale for Tremor. Poster, CNS Annual Meeting. 2025.</li>
+        <li>Seas A, Shaker E, Arno G, Goes E, McGee James T, MacDonagh AC, Harward S, Lad SP. Mapping resident learning curves in functional neurosurgery using the SAP ZPD framework. Poster, CNS Annual Meeting. 2025.</li>
+        <li>Goes E, Shaker E, Seas A, McGee James T, Arno G, MacDonagh AC, Succop BS, Harward S, Haglund MM, Lad SP. Achieving autonomy in neurosurgical cranial procedures: an analysis of case volume and evaluation alignment. Poster, CNS Annual Meeting. 2025.</li>
+        <li>Arno G, Shaker E, Seas A, McGee James T, Goes E, MacDonagh AC, Harward S, Lad SP. Small field, large stakes: mapping resident competency in pediatric neurosurgery. Poster, CNS Annual Meeting. 2025.</li>
+        <li>Ray EJ, MacDonagh AC, Seas A, Succop BS, Goes EG, McGee James T, Arno G, Shaker E, Suarez A, Harward SC, Haglund MM, Lad SP. Quantifying faculty variation in resident autonomy assessment using the Surgical Autonomy Program. Poster, CNS Annual Meeting. 2025.</li>
+        <li>McGee James T, Shaker E, Goes E, MacDonagh AC, Arno G, Ray E, Succop B, Seas A, Suarez A, Harward S, Haglund MM, Lad SP. Evaluating neurosurgical resident autonomy in critical care procedures using the Surgical Autonomy Program. Poster, CNS Annual Meeting. 2025.</li>
+        <li>Shaker E, Haskell‑Mendoza AP, Jackson JD, Warman PI, Broadwater G, Herndon J, Adamson J, Fecci PE. Clinical and radiotherapeutic predictors of surgical resection in brain metastases managed with stereotactic radiosurgery. Poster, CNS Annual Meeting. 2025.</li>
+      </ol>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-code">04 — APPT</span><span class="sec-title">Appointments &amp; Recognition</span></div>
+
+      <div class="sec-sub">B — Professional Societies &amp; Service Organizations</div>
+      <ul class="simple-list">
+        <li>Neurosurgery Interest Group, Duke SOM — Member</li>
+        <li>Interventional Radiology Interest Group, Duke SOM — Member</li>
+        <li>Student National Medical Association (SNMA), Duke SOM — Member</li>
+        <li>Brain School, Duke SOM — Member</li>
+        <li>Root Causes Fresh Produce Program, Duke SOM — Member</li>
+        <li>Biomedical Engineering Society (BMES) — Member</li>
+        <li>Middle Eastern and North African Student Association (MENASA), Pitt — Member</li>
+        <li>Coptic Orthodox Youth Association (COYA), Pitt — Member</li>
+        <li>Delta Chi Fraternity, Pitt — Sergeant at Arms, Sep 2020–May 2023</li>
+        <li>Kids Can: Classroom to Community, Pitt — Member, Sep 2021–Jan 2024</li>
+      </ul>
+
+      <div class="sec-sub" style="margin-top:26px;">E — Professional Awards &amp; Recognition</div>
+      <ul class="simple-list">
+        <li>Michael G. Wells Healthcare Entrepreneurship Competition Winner — $10,000 (Lead Inventor, BioBulwark) — Mar 2021</li>
+        <li>1st Place, Forbes Hacks Innovation Competition — Mar 2020</li>
+        <li>1st Place Overall Project, Swanson School of Engineering Design Expo — Apr 2023</li>
+        <li>1st Place Bioengineering Project, Swanson School Design Expo — Apr 2023</li>
+        <li>2nd Place Bioengineering Project, Swanson School Design Expo — Apr 2022</li>
+        <li>3rd Place, Annual Oratory Competition, Diversity Category — Apr 2022</li>
+        <li>1st Place Highest GPA Two‑Sport Athlete, Marlboro High School — Jun 2019</li>
+        <li>Summa Cum Laude, University of Pittsburgh (3.84/4.0)</li>
+        <li>Dean's List, University of Pittsburgh, 2019–2023</li>
+      </ul>
+
+      <div class="sec-sub" style="margin-top:26px;">F — Grants &amp; Scholarships</div>
+      <ul class="simple-list one-col">
+        <li>Duke University School of Medicine Grant — $37,898.00 (2024–2025)</li>
+        <li>Rodger and Christine LeMatty Scholarship — $25,117.00 (2024–2025)</li>
+        <li>University of Pittsburgh Scholarship — $15,000/yr (2019–2023)</li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-code">05 — IP</span><span class="sec-title">Intellectual Property / Patents</span></div>
+      <ol class="pub-list">
+        <li>Provisional Patent: BioBulwark Device (Lead Inventor). Developed in Dr. Rui Liang's Lab for innovation in urogynecologic healthcare. Presented at AUGS.</li>
+        <li>U.S. Patent Application (Published): Liang R, Bedewy M, Shaker ER. Implantable devices with antibacterial coating. U.S. Patent App. No. US‑2023/0397978‑A1, filed Oct 13 2021; published Dec 14 2023. Assigned to University of Pittsburgh. <span class="status">Pending</span></li>
+      </ol>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-code">06 — SVC</span><span class="sec-title">Community Involvement / Service</span></div>
+      <div class="entry">
+        <div class="entry-top"><span class="org">Marlboro Volunteer EMS Squad</span><span class="place">Marlboro, NJ</span></div>
+        <div class="subline"><span class="role-line">EMT / Former Sergeant, Cadet Corps</span><span class="dates">Aug 2016 – Aug 2024</span></div>
+        <div class="desc">Responsible for new member education; increased size of Cadet Corps by 300%; on call for 1,000+ hours delivering patient care.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top"><span class="org">Kids Can: Classroom to Community</span><span class="place">Pittsburgh, PA</span></div>
+        <div class="subline"><span class="dates">Sep 2021 – Jan 2024</span></div>
+        <div class="desc">Designed and produced adaptive devices for children with disabilities at the Western Pennsylvania School for Blind and Disabled Children, including a page‑turning device for students with motor disabilities.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top"><span class="org">Oral Communication Laboratory Coach</span><span class="place">University of Pittsburgh</span></div>
+        <div class="subline"><span class="dates">Jan 2023 – Jun 2023</span></div>
+        <div class="desc">Held weekly office hours helping students improve speaking ability, organizational skills, delivery, and confidence in public speaking courses.</div>
+      </div>
+      <div class="entry">
+        <div class="entry-top"><span class="org">Root Causes Fresh Produce Program</span><span class="place">Duke SOM</span></div>
+        <div class="subline"><span class="role-line">Member</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="sec-code">07 — SKILLS</span><span class="sec-title">Technical Skills &amp; Coursework</span></div>
+      <div class="entry">
+        <div class="pos-label">Technical Skills</div>
+        <div class="data-val">R · Python · MATLAB · Java (ImageJ Macros) · Deep Learning (scikit‑learn, Keras) · ImageJ/Fiji · DSI Studio · iTKSnap · ANSYS · SolidWorks · Arduino · 3D Bioprinting · Machining · FDA Regulation · NanoString Analysis · RShiny</div>
+      </div>
+      <div class="entry">
+        <div class="pos-label">Selected Coursework</div>
+        <div class="data-val">Tissue Engineering · Synthetic Biology · AI in Healthcare · Multi‑Modal Medical Image Analysis · Signals and Systems</div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <span>ES · DUKE SOM · MD 2028</span>
+    <span id="footerRight">REV. JUL 2026</span>
+  </footer>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tabs button');
+  const panels = {
+    resume: document.getElementById('panel-resume'),
+    cv: document.getElementById('panel-cv')
+  };
+  const roleLine = document.getElementById('roleLine');
+  const preparedLine = document.getElementById('preparedLine');
+  const footerRight = document.getElementById('footerRight');
+
+  const roleText = {
+    resume: 'MD Candidate · Bioengineering · Orthopaedic Surgery',
+    cv: 'Curriculum Vitae · Eric Rafeek Shaker, B.E.'
+  };
+  const footerText = {
+    resume: 'REV. JUL 2026',
+    cv: 'CV PREPARED MAR 2026'
+  };
+
+  function setTab(name){
+    tabs.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === name));
+    Object.entries(panels).forEach(([key, el]) => el.classList.toggle('active', key === name));
+    roleLine.textContent = roleText[name];
+    preparedLine.style.display = name === 'cv' ? 'block' : 'none';
+    footerRight.textContent = footerText[name];
+    window.scrollTo({top: 0, behavior: 'instant'});
+  }
+
+  tabs.forEach(btn => btn.addEventListener('click', () => setTab(btn.dataset.tab)));
+</script>
+
+</body>
+</html>
